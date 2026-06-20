@@ -3,6 +3,7 @@ import User from "../models/User.model.js";
 import Goal from "../models/Goal.model.js";
 import Report from "../models/Report.model.js";
 import Notification from "../models/Notification.model.js";
+import { sendNotification } from "../socket.js";
 
 /**
  * Helper — avoid duplicate notifications within the same day
@@ -71,11 +72,12 @@ export const initCronJobs = () => {
             intern.goals.length > 2
               ? ` (+${intern.goals.length - 2} more)`
               : "";
-          await Notification.create({
+          const notif = await Notification.create({
             recipient: intern.id,
             type: "reminder",
             message: `📋 Friday Reminder: Submit your weekly report for "${goalList}"${extra} by end of day today!`,
           });
+          sendNotification(notif.recipient, notif);
           notificationsCreated++;
         }
       }
@@ -111,11 +113,12 @@ export const initCronJobs = () => {
             "Monday",
           );
           if (!alreadySent) {
-            await Notification.create({
+            const notif = await Notification.create({
               recipient: manager._id,
               type: "reminder",
               message: `📊 Monday Briefing: You have ${pendingReports} report${pendingReports > 1 ? "s" : ""} waiting in your review queue.`,
             });
+            sendNotification(notif.recipient, notif);
             notificationsCreated++;
           }
         }
@@ -149,11 +152,12 @@ export const initCronJobs = () => {
             goal.title,
           );
           if (!alreadySent) {
-            await Notification.create({
+            const notif = await Notification.create({
               recipient: intern._id,
               type: "reminder",
               message: `🚨 OVERDUE: Your task "${goal.title}" was due ${goal.deadline.toLocaleDateString()}. Please submit your report immediately!`,
             });
+            sendNotification(notif.recipient, notif);
             alertCount++;
           }
         }
@@ -192,11 +196,12 @@ export const initCronJobs = () => {
           }),
         ]);
 
-        await Notification.create({
+        const notif = await Notification.create({
           recipient: manager._id,
           type: "reminder",
           message: `📈 Weekly Summary: ${approvedThisWeek} reports approved, ${pendingThisWeek} still pending review. Your team has ${managerGoals.length} active goals.`,
         });
+        sendNotification(notif.recipient, notif);
         digestCount++;
       }
       console.log(
@@ -227,11 +232,12 @@ export const initCronJobs = () => {
             "Midweek",
           );
           if (!alreadySent) {
-            await Notification.create({
+            const notif = await Notification.create({
               recipient: intern._id,
               type: "reminder",
               message: `⏰ Midweek Check-in: How's progress on "${goal.title}"? Make sure you're on track before Friday.`,
             });
+            sendNotification(notif.recipient, notif);
             nudgeCount++;
           }
         }

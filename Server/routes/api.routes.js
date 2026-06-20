@@ -44,6 +44,8 @@ import {
 } from "../controllers/settings.controller.js";
 import User from "../models/User.model.js";
 import Notification from "../models/Notification.model.js";
+import { upload, uploadFile, deleteFile } from "../controllers/attachments.controller.js";
+import { sendNotification } from "../socket.js";
 
 const router = express.Router();
 
@@ -88,6 +90,10 @@ router.post(
   authorize("manager", "admin"),
   summarizeReport,
 );
+
+// Attachment Routes
+router.post("/attachments", protect, upload.single("file"), uploadFile);
+router.delete("/attachments/:id", protect, deleteFile);
 
 // User Routes
 router.get(
@@ -153,22 +159,24 @@ router.post(
         });
         for (const goal of overdueGoals) {
           for (const internId of goal.assignedTo) {
-            await Notification.create({
+            const notif = await Notification.create({
               recipient: internId,
               type: "reminder",
               message: `🚨 OVERDUE: Your task "${goal.title}" is past its deadline. Please submit immediately!`,
             });
+            sendNotification(notif.recipient, notif);
             count++;
           }
         }
       } else if (type === "friday") {
         const interns = await User.find({ role: "intern" });
         for (const intern of interns) {
-          await Notification.create({
+          const notif = await Notification.create({
             recipient: intern._id,
             type: "reminder",
             message: `📋 Test Reminder: This is a Friday report submission reminder. Please submit your weekly progress!`,
           });
+          sendNotification(notif.recipient, notif);
           count++;
         }
       } else if (type === "monday") {
@@ -180,11 +188,12 @@ router.post(
             goal: { $in: goalIds },
             status: "Submitted",
           });
-          await Notification.create({
+          const notif = await Notification.create({
             recipient: manager._id,
             type: "reminder",
             message: `📊 Test Briefing: You have ${pending} report(s) in your review queue right now.`,
           });
+          sendNotification(notif.recipient, notif);
           count++;
         }
       }

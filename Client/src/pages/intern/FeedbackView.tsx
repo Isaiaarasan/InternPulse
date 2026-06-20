@@ -5,9 +5,12 @@ import {
   ArrowLeft,
   Star,
   Sparkles,
-  CheckCircle,
   AlertCircle,
   RefreshCcw,
+  Paperclip,
+  Download,
+  FileText,
+  CheckCircle
 } from "lucide-react";
 import {
   Card,
@@ -162,6 +165,31 @@ export default function FeedbackView() {
             />
           </CardBody>
         </Card>
+
+        {report.attachments && report.attachments.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Paperclip size={16} className="text-primary-500" />
+                Attachments
+              </CardTitle>
+            </CardHeader>
+            <CardBody>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {report.attachments.map((att: any) => (
+                  <a key={att._id} href={att.url} target="_blank" rel="noopener noreferrer" 
+                     className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-border dark:border-gray-700">
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      <FileText size={16} className="text-muted shrink-0" />
+                      <span className="text-xs font-medium truncate text-primaryText">{att.originalName}</span>
+                    </div>
+                    <Download size={14} className="text-muted shrink-0" />
+                  </a>
+                ))}
+              </div>
+            </CardBody>
+          </Card>
+        )}
 
         {isRevision && (
           <Button

@@ -20,6 +20,10 @@ const reportSchema = new mongoose.Schema({
   highlights:   { type: String, default: '' },
   blockers:     { type: String, default: '' },
   nextWeekPlan: { type: String, default: '' },
+  attachments: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Attachment'
+  }],
 
   aiSummary: String,
   status: {
