@@ -58,7 +58,7 @@ export default function GoalWizard() {
   }
 
   return (
-    <div className="page-container max-w-2xl">
+    <div className="page-container">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-primaryText">Create Weekly Goal</h2>
         <p className="text-sm text-muted mt-1">A 3-step process to set clear, measurable goals for your interns</p>

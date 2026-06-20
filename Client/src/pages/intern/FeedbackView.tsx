@@ -53,7 +53,7 @@ export default function FeedbackView() {
   const isRevision = report.status === "Revision-Required";
 
   return (
-    <div className="page-container space-y-6 max-w-3xl">
+    <div className="page-container space-y-6">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-sm text-muted hover:text-primary-500 transition-colors"

@@ -1,8 +1,0 @@
-≡ƒÜÇ MongoDB Connected: localhost
-≡ƒöº Initializing CRON Jobs...
-Γ£à All CRON jobs initialized successfully
-   ≡ƒôï Friday 5 PM: Report Reminder
-   ≡ƒôè Monday 9 AM: Review Reminder
-   ≡ƒÜ¿ Every Hour: Overdue Check
-   ≡ƒôê Sunday 8 PM: Weekly Digest
-   ΓÅ░ Wednesday 12 PM: Midweek Nudge

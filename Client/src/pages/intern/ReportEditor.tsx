@@ -112,7 +112,7 @@ export default function ReportEditor() {
   }
 
   return (
-    <div className="page-container max-w-5xl space-y-6">
+    <div className="page-container space-y-6">
 
       {/* Back navigation */}
       <button
