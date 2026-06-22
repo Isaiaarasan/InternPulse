@@ -150,7 +150,7 @@ export default function HelpSupport() {
   };
 
   return (
-    <div className="page-container space-y-6 max-w-4xl">
+    <div className="page-container space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-primaryText">
           Help & Support

@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useThemeStore } from "./stores/themeStore";
 import { useTheme } from "./hooks/useTheme";
+import { useAuthStore } from "./stores/authStore";
+import { socketService } from "./services/socketService";
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { isDark } = useThemeStore();
@@ -22,6 +24,19 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const { isDark } = useThemeStore();
+  const { isAuthenticated } = useAuthStore();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      socketService.connect();
+    } else {
+      socketService.disconnect();
+    }
+
+    return () => {
+      // Don't disconnect on unmount, only on auth change
+    };
+  }, [isAuthenticated]);
 
   return (
     <BrowserRouter>

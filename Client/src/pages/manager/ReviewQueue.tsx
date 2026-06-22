@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   FileText, Sparkles, Star, CheckCircle, RefreshCcw, Clock,
   User, Calendar, Target, TrendingUp, ChevronRight, Search,
-  Filter, X, Award
+  Filter, X, Award, Paperclip, Download
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { Badge } from '../../components/ui/Badge'
@@ -323,6 +323,31 @@ export default function ReviewQueue() {
                     </AnimatePresence>
                   </CardBody>
                 </Card>
+
+                {/* Attachments */}
+                {selected.attachments && selected.attachments.length > 0 && (
+                  <Card>
+                    <CardBody>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Paperclip size={15} style={{ color: 'var(--primary)' }} />
+                        <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Attachments</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {selected.attachments.map((att: any) => (
+                          <a key={att._id} href={att.url} target="_blank" rel="noopener noreferrer" 
+                             className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                             style={{ border: '1px solid var(--border-color)' }}>
+                            <div className="flex items-center gap-2 overflow-hidden">
+                              <FileText size={16} style={{ color: 'var(--text-muted)' }} />
+                              <span className="text-xs font-medium truncate" style={{ color: 'var(--text-primary)' }}>{att.originalName}</span>
+                            </div>
+                            <Download size={14} style={{ color: 'var(--text-muted)' }} />
+                          </a>
+                        ))}
+                      </div>
+                    </CardBody>
+                  </Card>
+                )}
 
                 {/* AI Summary */}
                 <Card>

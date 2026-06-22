@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
+import http from 'http';
 import connectDB from './config/db.js';
 import apiRoutes from './routes/api.routes.js';
 import { initCronJobs } from './cron/reminders.cron.js';
+import { initSocket } from './socket.js';
 
 // Load env vars
 dotenv.config();
@@ -17,6 +19,10 @@ await connectDB();
 initCronJobs();
 
 const app = express();
+const server = http.createServer(app);
+
+// Init Socket.io
+initSocket(server);
 
 // Body parser
 app.use(express.json());
@@ -38,6 +44,9 @@ if (process.env.NODE_ENV === 'development') {
 // Mount routers
 app.use('/api', apiRoutes);
 
+// Serve static uploads
+app.use('/uploads', express.static('uploads'));
+
 // Root route
 app.get('/', (req, res) => {
   res.send('InternPulse API is running...');
@@ -45,7 +54,7 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`
     🚀 InternPulse Server Running
     📡 Port: ${PORT}

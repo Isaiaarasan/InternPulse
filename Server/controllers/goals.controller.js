@@ -1,5 +1,6 @@
 import Goal from "../models/Goal.model.js";
 import Notification from "../models/Notification.model.js";
+import { sendNotification } from "../socket.js";
 
 export const createGoal = async (req, res) => {
   try {
@@ -12,7 +13,8 @@ export const createGoal = async (req, res) => {
       type: "goal_assigned",
       message: `New goal assigned: ${goal.title}`,
     }));
-    await Notification.insertMany(notifications);
+    const createdNotifs = await Notification.insertMany(notifications);
+    createdNotifs.forEach(notif => sendNotification(notif.recipient, notif));
 
     res.status(201).json({ success: true, data: goal });
   } catch (error) {

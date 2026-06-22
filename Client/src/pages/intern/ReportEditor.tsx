@@ -5,7 +5,7 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import {
   FileText, ArrowLeft, Send, Target, CheckCircle,
-  AlertTriangle, BookOpen, Calendar, Lightbulb, TrendingUp
+  AlertTriangle, BookOpen, Calendar, Lightbulb, TrendingUp, Paperclip, X
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { Button } from '../../components/ui/Button'
@@ -51,6 +51,8 @@ export default function ReportEditor() {
   const [loading, setLoading] = useState(false)
   const [goalsLoading, setGoalsLoading] = useState(true)
   const [submitted, setSubmitted] = useState(false)
+  const [attachments, setAttachments] = useState<any[]>([])
+  const [uploadingFile, setUploadingFile] = useState(false)
 
   const totalWords = Object.values(form).join(' ').replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length
   const progress = Math.min(100, Math.round((totalWords / 150) * 100))
@@ -77,6 +79,7 @@ export default function ReportEditor() {
         highlights: form.highlights,
         blockers: form.blockers,
         nextWeekPlan: form.nextWeekPlan,
+        attachments: attachments.map(a => a._id),
       })
       setSubmitted(true)
       toast.success('Report submitted! Great work this week 🎉')
@@ -87,6 +90,34 @@ export default function ReportEditor() {
       setLoading(false)
     }
   }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('File size must be less than 10MB');
+      return;
+    }
+
+    setUploadingFile(true);
+    try {
+      const res = await reportService.uploadAttachment(file);
+      const newAttachment = res.data.data;
+      setAttachments(prev => [...prev, newAttachment]);
+      toast.success('File attached successfully');
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to upload file');
+    } finally {
+      setUploadingFile(false);
+      // Reset input
+      if (e.target) e.target.value = '';
+    }
+  };
+
+  const removeAttachment = (id: string) => {
+    setAttachments(prev => prev.filter(a => a._id !== id));
+  };
 
   // ─── Success screen ───────────────────────────────────────────────
   if (submitted) {
@@ -112,7 +143,7 @@ export default function ReportEditor() {
   }
 
   return (
-    <div className="page-container max-w-5xl space-y-6">
+    <div className="page-container space-y-6">
 
       {/* Back navigation */}
       <button
@@ -253,6 +284,36 @@ export default function ReportEditor() {
                 </div>
               </div>
             ))}
+
+            {/* File Attachments */}
+            <div className="rounded-3xl p-5 space-y-3"
+              style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--primary)', opacity: 0.8 }}>
+                  Attachments
+                </label>
+                <label className="cursor-pointer text-xs font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity" style={{ color: 'var(--primary)' }}>
+                  <Paperclip size={14} /> {uploadingFile ? 'Uploading...' : 'Attach File'}
+                  <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploadingFile} />
+                </label>
+              </div>
+              
+              {attachments.length > 0 && (
+                <div className="space-y-2 mt-3">
+                  {attachments.map(att => (
+                    <div key={att._id} className="flex items-center justify-between p-2 rounded-xl" style={{ background: 'var(--bg-surface-2)', border: '1px solid var(--border-color)' }}>
+                      <div className="flex items-center gap-2 overflow-hidden">
+                        <FileText size={14} style={{ color: 'var(--text-muted)' }} />
+                        <span className="text-xs truncate" style={{ color: 'var(--text-primary)' }}>{att.originalName}</span>
+                      </div>
+                      <button onClick={() => removeAttachment(att._id)} className="p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors">
+                        <X size={14} style={{ color: 'var(--text-muted)' }} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Submit */}
             <Button

@@ -2,8 +2,17 @@ import api from './api'
 
 export const reportService = {
   /** Intern submits a weekly report */
-  submitReport: (data: { goal: string; content: string; highlights?: string; blockers?: string; nextWeekPlan?: string }) =>
+  submitReport: (data: { goal: string; content: string; highlights?: string; blockers?: string; nextWeekPlan?: string; attachments?: string[] }) =>
     api.post('/reports', data),
+
+  /** Upload an attachment */
+  uploadAttachment: (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return api.post("/attachments", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
 
   /** Intern's own report history */
   getMyReports: () => api.get('/reports/mine'),

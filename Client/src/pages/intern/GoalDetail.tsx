@@ -42,7 +42,7 @@ export default function GoalDetail() {
   if (!goal) return null
 
   return (
-    <div className="page-container space-y-6 max-w-3xl">
+    <div className="page-container space-y-6">
       <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted hover:text-primary-500 transition-colors">
         <ArrowLeft size={16} /> Back to Goals
       </button>

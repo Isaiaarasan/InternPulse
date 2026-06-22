@@ -2,6 +2,7 @@ import Report from "../models/Report.model.js";
 import Goal from "../models/Goal.model.js";
 import User from "../models/User.model.js";
 import Notification from "../models/Notification.model.js";
+import { sendNotification } from "../socket.js";
 
 /**
  * POST /api/reports
@@ -57,11 +58,12 @@ export const submitReport = async (req, res) => {
 
     // Notify the manager who created this goal
     if (goal.createdBy) {
-      await Notification.create({
+      const notif = await Notification.create({
         recipient: goal.createdBy,
         type: "report_submitted",
         message: `📄 ${req.user.name} submitted a weekly report for "${goal.title}" — ready for review.`,
       });
+      sendNotification(notif.recipient, notif);
     }
 
     res.status(201).json({ success: true, data: report });
@@ -86,7 +88,8 @@ export const getReportById = async (req, res) => {
   try {
     const report = await Report.findById(req.params.id)
       .populate("intern", "name email department")
-      .populate("goal", "title description points deadline");
+      .populate("goal", "title description points deadline")
+      .populate("attachments");
 
     if (!report) {
       return res
@@ -122,6 +125,7 @@ export const getMyReports = async (req, res) => {
   try {
     const reports = await Report.find({ intern: req.user.id })
       .populate("goal", "title points deadline status")
+      .populate("attachments")
       .sort("-submittedAt");
     res.status(200).json({ success: true, data: reports });
   } catch (error) {
@@ -150,6 +154,7 @@ export const getReviewQueue = async (req, res) => {
     })
       .populate("intern", "name email department")
       .populate("goal", "title points deadline")
+      .populate("attachments")
       .sort("-submittedAt");
 
     res.status(200).json({ success: true, data: reports });
@@ -197,11 +202,12 @@ export const reviewReport = async (req, res) => {
         ? `🎉 Your report has been approved${scoreText}! Great work — keep it up.`
         : `🔄 Your report requires revision${scoreText}. Feedback: "${managerFeedback?.substring(0, 80)}..."`;
 
-    await Notification.create({
+    const notif = await Notification.create({
       recipient: report.intern._id,
       type: status === "Approved" ? "report_approved" : "report_rejected",
       message: notifMsg,
     });
+    sendNotification(notif.recipient, notif);
 
     res.status(200).json({ success: true, data: report });
   } catch (error) {
