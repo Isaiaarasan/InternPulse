@@ -7,6 +7,7 @@ import { useAuthStore } from '../../stores/authStore'
 import api from '../../services/api'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
+import LogoImage from '../../assets/Logo.png'
 
 export default function ChangePasswordPage() {
   const [password, setPassword] = useState('')
@@ -57,13 +58,7 @@ export default function ChangePasswordPage() {
 
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <motion.div
-            animate={{ boxShadow: ['0 0 20px rgba(124,58,237,0.4)', '0 0 40px rgba(124,58,237,0.7)', '0 0 20px rgba(124,58,237,0.4)'] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
-            className="w-16 h-16 rounded-3xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #4F46E5)' }}>
-            <Lock size={30} className="text-white" />
-          </motion.div>
+          <img src={LogoImage} alt="InternPulse" className="h-14 object-contain" />
         </div>
 
         <div className="rounded-3xl p-8" style={{

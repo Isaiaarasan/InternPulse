@@ -32,7 +32,7 @@ const logCronError = (jobName, error) => {
 };
 
 export const initCronJobs = () => {
-  console.log("🔧 Initializing CRON Jobs...");
+  // console.log("🔧 Initializing CRON Jobs...");
 
   // ─────────────────────────────────────────────────────────────────
   // 1. EVERY FRIDAY 5 PM — Remind interns to submit weekly reports
@@ -250,10 +250,10 @@ export const initCronJobs = () => {
     }
   });
 
-  console.log("✅ All CRON jobs initialized successfully");
-  console.log("   📋 Friday 5 PM: Report Reminder");
-  console.log("   📊 Monday 9 AM: Review Reminder");
-  console.log("   🚨 Every Hour: Overdue Check");
-  console.log("   📈 Sunday 8 PM: Weekly Digest");
-  console.log("   ⏰ Wednesday 12 PM: Midweek Nudge");
+  // console.log("✅ All CRON jobs initialized successfully");
+  // console.log("   📋 Friday 5 PM: Report Reminder");
+  // console.log("   📊 Monday 9 AM: Review Reminder");
+  // console.log("   🚨 Every Hour: Overdue Check");
+  // console.log("   📈 Sunday 8 PM: Weekly Digest");
+  // console.log("   ⏰ Wednesday 12 PM: Midweek Nudge");
 };
