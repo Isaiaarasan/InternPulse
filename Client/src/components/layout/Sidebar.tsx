@@ -21,6 +21,8 @@ import { useAuthStore } from "../../stores/authStore";
 import { cn } from "../../utils/cn";
 import { useState } from "react";
 import QuickThemePickerSidebar from "./QuickThemePickerSidebar";
+import LogoImage from "../../assets/Logo.png";
+import IconImage from "../../assets/IN.png";
 
 const internMenu = [
   { icon: LayoutDashboard, label: "Dashboard", to: "/intern/dashboard" },
@@ -86,37 +88,12 @@ export default function Sidebar() {
         )}
         style={{ borderBottom: "1px solid var(--sidebar-border)" }}
       >
-        <div
-          className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 relative"
-          style={{
-            background: "linear-gradient(135deg, var(--primary), var(--primary-hover))",
-            boxShadow: "0 0 18px rgba(var(--primary-rgb), 0.45)",
-          }}
-        >
-          <Zap size={17} className="text-white" />
-          <span
-            className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2"
-            style={{
-              background: "#06D6A0",
-              boxShadow: "0 0 6px #06D6A0",
-              borderColor: "var(--sidebar-bg)",
-            }}
-          />
-        </div>
-        {!collapsed && (
-          <div>
-            <p
-              className="text-sm font-bold tracking-wide"
-              style={{ color: "var(--text-primary)" }}
-            >
-              InternPulse
-            </p>
-            <p
-              className="text-[10px] font-medium capitalize"
-              style={{ color: "var(--text-muted)" }}
-            >
-              {user?.role} Portal
-            </p>
+        {collapsed ? (
+          <img src={IconImage} alt="InternPulse Icon" className="w-9 h-9 object-contain shrink-0" />
+        ) : (
+          <div className="flex flex-col justify-center">
+             <img src={LogoImage} alt="InternPulse Logo" className="h-8 object-contain" />
+             <p className="text-[10px] font-medium capitalize mt-0.5" style={{ color: "var(--text-muted)" }}>{user?.role} Portal</p>
           </div>
         )}
       </div>

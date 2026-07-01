@@ -15,6 +15,7 @@ import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { useAuthStore } from "../../stores/authStore";
 import { authService } from "../../services/authService";
+import LogoImage from "../../assets/Logo.png";
 
 const orbs = [
   { size: 400, x: "-10%", y: "-20%", color: "rgba(124,58,237,0.15)" },
@@ -24,7 +25,7 @@ const orbs = [
 
 const demoAccounts = {
   manager: { email: "manager@internpulse.com", password: "manager123" },
-  intern: { email: "intern@internpulse.com", password: "intern123" },
+  intern: { email: "intern@internpulse.com", password: "intern1234" },
   admin: { email: "admin@internpulse.com", password: "admin123" },
 };
 
@@ -106,29 +107,8 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex flex-col items-center gap-3">
-            <motion.div
-              animate={{
-                boxShadow: [
-                  "0 0 20px rgba(124,58,237,0.4)",
-                  "0 0 40px rgba(124,58,237,0.7)",
-                  "0 0 20px rgba(124,58,237,0.4)",
-                ],
-              }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-              className="w-14 h-14 rounded-2xl flex items-center justify-center"
-              style={{
-                background: "linear-gradient(135deg, #7C3AED, #4F46E5)",
-              }}
-            >
-              <Zap size={26} className="text-white" />
-            </motion.div>
+            <img src={LogoImage} alt="InternPulse" className="h-14 object-contain" />
             <div>
-              <h1
-                className="text-2xl font-bold tracking-tight"
-                style={{ color: "var(--text-primary)" }}
-              >
-                InternPulse
-              </h1>
               <p
                 className="text-xs mt-0.5"
                 style={{ color: "var(--text-muted)" }}

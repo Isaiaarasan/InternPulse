@@ -7,6 +7,7 @@ import { useAuthStore } from '../../stores/authStore'
 import api from '../../services/api'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
+import LogoImage from '../../assets/Logo.png'
 
 const steps = [
   { label: 'Password',  done: true },
@@ -56,12 +57,8 @@ export default function ProfileSetupPage() {
 
         {/* Logo + heading */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2.5 mb-4">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #7C3AED, #4F46E5)', boxShadow: '0 0 16px rgba(124,58,237,0.5)' }}>
-              <Zap size={18} className="text-white" />
-            </div>
-            <span className="font-bold text-white text-lg">InternPulse</span>
+          <div className="inline-flex items-center justify-center mb-4">
+            <img src={LogoImage} alt="InternPulse" className="h-10 object-contain" />
           </div>
           <h1 className="text-3xl font-black text-white">Welcome aboard! 👋</h1>
           <p className="mt-2 text-sm" style={{ color: 'rgba(248,248,255,0.45)' }}>

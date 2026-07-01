@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { User, Lock, Bell, Moon, Sun, Save } from 'lucide-react'
+import { User, Lock, Bell, Moon, Sun, Save, Eye, EyeOff } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardBody } from '../../components/ui/Card'
 import { useAuthStore } from '../../stores/authStore'
 import { useThemeStore } from '../../stores/themeStore'
 import { authService } from '../../services/authService'
+import api from '../../services/api'
 
 export default function SettingsPage() {
   const { user, updateUser } = useAuthStore()
@@ -14,6 +15,9 @@ export default function SettingsPage() {
   const [profileForm, setProfileForm] = useState({ name: user?.name || '', department: user?.department || '' })
   const [passForm, setPassForm] = useState({ current: '', newPass: '', confirm: '' })
   const [loading, setLoading] = useState(false)
+  const [showCurrent, setShowCurrent] = useState(false)
+  const [showNew, setShowNew] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const handleProfileSave = async () => {
     setLoading(true)
@@ -32,11 +36,23 @@ export default function SettingsPage() {
     }
   }
 
-  const handlePasswordChange = () => {
+  const [passLoading, setPassLoading] = useState(false)
+
+  const handlePasswordChange = async () => {
     if (passForm.newPass !== passForm.confirm) { toast.error('Passwords do not match'); return }
     if (passForm.newPass.length < 6) { toast.error('Password must be at least 6 characters'); return }
-    toast.success('Password changed successfully!')
-    setPassForm({ current: '', newPass: '', confirm: '' })
+    
+    setPassLoading(true)
+    try {
+      await api.put('/auth/change-password', { newPassword: passForm.newPass })
+      toast.success('Password changed successfully!')
+      setPassForm({ current: '', newPass: '', confirm: '' })
+      updateUser({ isPasswordChanged: true })
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to change password')
+    } finally {
+      setPassLoading(false)
+    }
   }
 
   return (
@@ -66,10 +82,40 @@ export default function SettingsPage() {
       <Card>
         <CardHeader><CardTitle className="flex items-center gap-2"><Lock size={16} /> Change Password</CardTitle></CardHeader>
         <CardBody className="space-y-4">
-          <Input label="Current Password" type="password" value={passForm.current} onChange={e => setPassForm({ ...passForm, current: e.target.value })} />
-          <Input label="New Password" type="password" value={passForm.newPass} onChange={e => setPassForm({ ...passForm, newPass: e.target.value })} />
-          <Input label="Confirm New Password" type="password" value={passForm.confirm} onChange={e => setPassForm({ ...passForm, confirm: e.target.value })} />
-          <Button variant="secondary" onClick={handlePasswordChange}><Save size={15} /> Change Password</Button>
+          <Input 
+            label="Current Password" 
+            type={showCurrent ? "text" : "password"} 
+            value={passForm.current} 
+            onChange={e => setPassForm({ ...passForm, current: e.target.value })}
+            suffixIcon={
+              <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="hover:opacity-100 opacity-70 transition-opacity">
+                {showCurrent ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            }
+          />
+          <Input 
+            label="New Password" 
+            type={showNew ? "text" : "password"} 
+            value={passForm.newPass} 
+            onChange={e => setPassForm({ ...passForm, newPass: e.target.value })}
+            suffixIcon={
+              <button type="button" onClick={() => setShowNew(!showNew)} className="hover:opacity-100 opacity-70 transition-opacity">
+                {showNew ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            }
+          />
+          <Input 
+            label="Confirm New Password" 
+            type={showConfirm ? "text" : "password"} 
+            value={passForm.confirm} 
+            onChange={e => setPassForm({ ...passForm, confirm: e.target.value })}
+            suffixIcon={
+              <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="hover:opacity-100 opacity-70 transition-opacity">
+                {showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            }
+          />
+          <Button variant="secondary" onClick={handlePasswordChange} isLoading={passLoading}><Save size={15} /> Change Password</Button>
         </CardBody>
       </Card>
 

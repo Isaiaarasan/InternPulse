@@ -52,7 +52,7 @@ const seedData = async () => {
       {
         name: 'James Intern',
         email: 'intern@internpulse.com',
-        password: 'intern123',
+        password: 'intern1234',
         role: 'intern',
         avatar: 'https://ui-avatars.com/api/?name=James+Intern',
         department: 'Engineering',
@@ -218,7 +218,7 @@ const seedData = async () => {
     console.log('-------------------');
     console.log('Admin login: admin@internpulse.com / admin123');
     console.log('Manager login: manager@internpulse.com / manager123');
-    console.log('Intern login: intern@internpulse.com / intern123');
+    console.log('Intern login: intern@internpulse.com / intern1234');
     console.log('-------------------');
 
     process.exit();
