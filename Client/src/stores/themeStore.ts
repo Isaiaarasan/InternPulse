@@ -18,7 +18,7 @@ const applyTheme = (dark: boolean) => {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      isDark: true, // default to dark
+      isDark: false, // default to light
       toggle: () =>
         set((state) => {
           const next = !state.isDark
@@ -39,11 +39,11 @@ const saved = localStorage.getItem('internpulse-theme')
 if (saved) {
   try {
     const parsed = JSON.parse(saved)
-    applyTheme(parsed?.state?.isDark ?? true)
+    applyTheme(parsed?.state?.isDark ?? false)
   } catch {
-    applyTheme(true)
+    applyTheme(false)
   }
 } else {
-  // Default to dark
-  applyTheme(true)
+  // Default to light
+  applyTheme(false)
 }
