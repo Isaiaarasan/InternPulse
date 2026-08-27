@@ -119,14 +119,14 @@ export default function GoalsList() {
             >
               <Link
                 to={`/intern/goals/${goal._id}`}
-                className="flex items-center justify-between p-5 bg-white dark:bg-gray-800 border border-border dark:border-gray-700 rounded-2xl hover:shadow-hover hover:-translate-y-0.5 transition-all duration-200 group"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 bg-white dark:bg-gray-800 border border-border dark:border-gray-700 rounded-2xl hover:shadow-hover hover:-translate-y-0.5 transition-all duration-200 group"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-center">
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                  <div className="w-10 h-10 shrink-0 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-center">
                     <Target size={18} className="text-primary-500" />
                   </div>
-                  <div>
-                    <p className="font-semibold text-primaryText group-hover:text-primary-500 transition-colors">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-sm sm:text-base text-primaryText group-hover:text-primary-500 transition-colors truncate sm:whitespace-normal">
                       {goal.title}
                     </p>
                     <p className="text-xs text-muted mt-0.5">
@@ -134,7 +134,7 @@ export default function GoalsList() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 self-end sm:self-auto">
                   <Badge variant={goalStatusBadge(goal.status)}>
                     {goal.status}
                   </Badge>
