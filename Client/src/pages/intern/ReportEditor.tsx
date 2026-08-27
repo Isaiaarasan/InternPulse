@@ -246,12 +246,12 @@ export default function ReportEditor() {
             </div>
 
             {/* Section Tabs */}
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 overflow-x-auto pb-1.5 scrollbar-none no-scrollbar">
               {sections.map(s => (
                 <button
                   key={s.key}
                   onClick={() => setActiveSection(s.key)}
-                  className="px-4 py-2 rounded-2xl text-xs font-semibold transition-all duration-200"
+                  className="px-3.5 sm:px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap shrink-0 transition-all duration-200"
                   style={activeSection === s.key
                     ? { background: 'var(--primary)', color: '#fff', boxShadow: '0 4px 15px rgba(124,58,237,0.35)' }
                     : { background: 'var(--bg-surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border-color)' }}>
