@@ -63,7 +63,57 @@ export default function InternList() {
         />
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 overflow-hidden">
+      {/* Mobile Card List (< md) */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          Array(4)
+            .fill(0)
+            .map((_, i) => (
+              <div
+                key={i}
+                className="h-20 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse"
+              />
+            ))
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-12 text-muted">
+            <Users size={36} className="mx-auto mb-2 opacity-30" />
+            <p className="font-medium text-sm">No interns found</p>
+          </div>
+        ) : (
+          filtered.map((intern, i) => (
+            <motion.div
+              key={intern._id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.04 }}
+              className="p-4 bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 flex items-center justify-between gap-3"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                  {intern.name?.charAt(0) || "I"}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-primaryText truncate">
+                    {intern.name}
+                  </p>
+                  <p className="text-xs text-muted truncate">{intern.department || "General"}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Badge variant="success">Active</Badge>
+                <Link to={`/manager/interns/${intern._id}`}>
+                  <Button variant="ghost" size="sm" className="!p-2">
+                    <Eye size={15} />
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Table (>= md) */}
+      <div className="hidden md:block bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-border dark:border-gray-700">

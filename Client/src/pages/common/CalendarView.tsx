@@ -64,9 +64,9 @@ export default function CalendarView() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Calendar */}
-        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 p-6">
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 p-4 sm:p-6">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
             <button
               onClick={() => setCurrentDate(subMonths(currentDate, 1))}
               className="w-8 h-8 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center transition-colors"
@@ -89,7 +89,7 @@ export default function CalendarView() {
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
               <div
                 key={d}
-                className="text-center text-xs font-semibold text-muted py-2"
+                className="text-center text-[11px] sm:text-xs font-semibold text-muted py-1 sm:py-2"
               >
                 {d}
               </div>
@@ -111,7 +111,7 @@ export default function CalendarView() {
                   key={day.toISOString()}
                   onClick={() => setSelectedDate(day)}
                   className={cn(
-                    "relative h-10 rounded-xl text-sm transition-all duration-150 font-medium",
+                    "relative h-9 sm:h-10 rounded-xl text-xs sm:text-sm transition-all duration-150 font-medium",
                     isToday(day) &&
                       !isSelected &&
                       "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400",
@@ -125,7 +125,7 @@ export default function CalendarView() {
                   {hasEvent && (
                     <span
                       className={cn(
-                        "absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full",
+                        "absolute bottom-1 sm:bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full",
                         isSelected ? "bg-white" : "bg-primary-500",
                       )}
                     />

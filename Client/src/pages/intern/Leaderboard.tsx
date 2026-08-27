@@ -44,7 +44,7 @@ export default function Leaderboard() {
         <>
           {/* Podium - Top 3 */}
           {top3.length > 0 && (
-            <div className={`grid ${top3.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' : top3.length === 2 ? 'grid-cols-2 max-w-xl mx-auto' : 'grid-cols-3'} gap-4`}>
+            <div className={`grid ${top3.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' : top3.length === 2 ? 'grid-cols-2 max-w-xl mx-auto' : 'grid-cols-3'} gap-2 sm:gap-4`}>
               { (top3.length === 3 ? [top3[1], top3[0], top3[2]] : top3).map((leader, idx) => {
                 let actualRank = 0;
                 if (top3.length === 3) {
@@ -59,16 +59,16 @@ export default function Leaderboard() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className={`${podiumBg[actualRank]} rounded-2xl p-6 text-center border border-border dark:border-gray-700 ${actualRank === 0 ? 'order-2 shadow-hover scale-105 z-10' : actualRank === 1 ? 'order-1 mt-6' : 'order-3 mt-6'}`}
+                    className={`${podiumBg[actualRank]} rounded-2xl p-3 sm:p-6 text-center border border-border dark:border-gray-700 ${actualRank === 0 ? 'order-2 shadow-hover scale-105 z-10' : actualRank === 1 ? 'order-1 mt-3 sm:mt-6' : 'order-3 mt-3 sm:mt-6'}`}
                   >
-                    <div className="text-2xl mb-2">{['🥇','🥈','🥉'][actualRank]}</div>
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-lg mx-auto mb-2 shadow-md">
+                    <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{['🥇','🥈','🥉'][actualRank]}</div>
+                    <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-sm sm:text-lg mx-auto mb-1.5 sm:mb-2 shadow-md">
                       {leader.name.charAt(0)}
                     </div>
-                    <p className={`font-bold text-sm truncate ${podiumColors[actualRank]}`}>{leader.name}</p>
-                    <p className="text-[10px] text-muted truncate">{leader.department || 'General'}</p>
-                    <p className="text-xl font-black text-primaryText mt-2">{leader.score}</p>
-                    <p className="text-[10px] text-muted uppercase tracking-wider">points</p>
+                    <p className={`font-bold text-xs sm:text-sm truncate ${podiumColors[actualRank]}`}>{leader.name}</p>
+                    <p className="text-[9px] sm:text-[10px] text-muted truncate">{leader.department || 'General'}</p>
+                    <p className="text-lg sm:text-xl font-black text-primaryText mt-1 sm:mt-2">{leader.score}</p>
+                    <p className="text-[9px] sm:text-[10px] text-muted uppercase tracking-wider">points</p>
                   </motion.div>
                 )
               })}

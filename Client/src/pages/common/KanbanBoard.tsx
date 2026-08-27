@@ -82,11 +82,11 @@ export default function KanbanBoard() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
           {COLUMNS.map((col) => (
             <div
               key={col.id}
-              className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 min-h-[400px]"
+              className="min-w-[270px] md:min-w-0 flex-1 snap-start bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 min-h-[380px]"
             >
               <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4" />
               <div className="space-y-3">
@@ -103,7 +103,7 @@ export default function KanbanBoard() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 h-full">
+        <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto pb-4 snap-x snap-mandatory h-full">
           {COLUMNS.map((col) => {
             const colGoals = goals.filter((g) => g.status === col.id);
             return (
@@ -111,7 +111,7 @@ export default function KanbanBoard() {
                 key={col.id}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={() => handleDrop(col.id)}
-                className="flex flex-col gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-border dark:border-gray-700 min-h-[400px]"
+                className="min-w-[270px] md:min-w-0 flex-1 snap-start flex flex-col gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-border dark:border-gray-700 min-h-[380px]"
               >
                 <div className="flex items-center justify-between">
                   <span

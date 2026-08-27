@@ -65,13 +65,13 @@ export default function GoalDetail() {
 
             <p className="text-sm text-secondary dark:text-gray-400 leading-relaxed mb-6">{goal.description}</p>
 
-            <div className="grid sm:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
               {[
                 { icon: Calendar, label: 'Deadline', value: formatDate(goal.deadline) },
                 { icon: Trophy, label: 'Points', value: `${goal.points} pts` },
                 { icon: CheckCircle, label: 'Status', value: goal.status },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+                <div key={label} className="p-3.5 sm:p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                   <div className="flex items-center gap-2 mb-1">
                     <Icon size={14} className="text-muted" />
                     <span className="text-xs text-muted font-medium">{label}</span>
@@ -81,33 +81,33 @@ export default function GoalDetail() {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
               {goal.status === 'Pending' && (
-                <Button onClick={() => handleUpdateStatus('In-Progress')} isLoading={updating}>
+                <Button onClick={() => handleUpdateStatus('In-Progress')} isLoading={updating} className="w-full sm:w-auto">
                   Start Working
                 </Button>
               )}
               {goal.status === 'In-Progress' && (
                 <>
-                  <Link to={`/intern/reports/new?goalId=${goal._id}`}>
-                    <Button>
+                  <Link to={`/intern/reports/new?goalId=${goal._id}`} className="w-full sm:w-auto">
+                    <Button className="w-full">
                       <FileText size={15} /> Submit Report
                     </Button>
                   </Link>
-                  <Button variant="secondary" onClick={() => handleUpdateStatus('Submitted')} isLoading={updating}>
+                  <Button variant="secondary" onClick={() => handleUpdateStatus('Submitted')} isLoading={updating} className="w-full sm:w-auto">
                     Mark as Submitted
                   </Button>
                 </>
               )}
               {goal.status === 'Revision-Required' && (
-                <Link to={`/intern/reports/new?goalId=${goal._id}`}>
-                  <Button variant="destructive">
+                <Link to={`/intern/reports/new?goalId=${goal._id}`} className="w-full sm:w-auto">
+                  <Button variant="destructive" className="w-full">
                     <FileText size={15} /> Resubmit Report
                   </Button>
                 </Link>
               )}
               {goal.status === 'Approved' && (
-                <div className="flex items-center gap-2 text-success font-semibold text-sm">
+                <div className="flex items-center gap-2 text-success font-semibold text-sm py-2">
                   <CheckCircle size={18} /> Goal Approved! You earned {goal.points} points
                 </div>
               )}

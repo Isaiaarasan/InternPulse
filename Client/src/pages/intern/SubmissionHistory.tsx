@@ -109,22 +109,24 @@ export default function SubmissionHistory() {
               >
                 <Link
                   to={`/intern/reports/${report._id}/feedback`}
-                  className="flex items-center gap-4 p-5 bg-white dark:bg-gray-800 border border-border dark:border-gray-700 rounded-2xl hover:shadow-hover hover:-translate-y-0.5 transition-all duration-200 group"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 bg-white dark:bg-gray-800 border border-border dark:border-gray-700 rounded-2xl hover:shadow-hover hover:-translate-y-0.5 transition-all duration-200 group"
                 >
-                  <div className="w-10 h-10 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-center shrink-0">
-                    <Icon size={18} className="text-primary-500" />
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div className="w-10 h-10 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-center shrink-0">
+                      <Icon size={18} className="text-primary-500" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm sm:text-base text-primaryText group-hover:text-primary-500 transition-colors truncate sm:whitespace-normal">
+                        {report.goal?.title || "Report"}
+                      </p>
+                      <p className="text-xs text-muted mt-0.5">
+                        Submitted {formatDateTime(report.submittedAt)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-primaryText group-hover:text-primary-500 transition-colors">
-                      {report.goal?.title || "Report"}
-                    </p>
-                    <p className="text-xs text-muted mt-0.5">
-                      Submitted {formatDateTime(report.submittedAt)}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 self-end sm:self-auto flex-wrap">
                     {report.score != null && (
-                      <span className="text-sm font-bold text-primaryText">
+                      <span className="text-xs sm:text-sm font-bold text-primaryText">
                         {report.score}/100
                       </span>
                     )}

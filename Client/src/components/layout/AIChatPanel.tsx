@@ -171,7 +171,7 @@ export default function AIChatPanel({ isOpen, onClose }: AIChatPanelProps) {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed right-4 bottom-4 md:top-20 md:bottom-8 z-50 w-[calc(100%-32px)] md:w-[400px] flex flex-col rounded-3xl overflow-hidden shadow-2xl"
+            className="fixed inset-x-3 bottom-20 top-16 md:top-20 md:bottom-8 md:right-4 md:left-auto md:w-[400px] z-50 flex flex-col rounded-3xl overflow-hidden shadow-2xl"
             style={{
               background: "var(--card-bg)",
               border: "1px solid var(--border-color)",

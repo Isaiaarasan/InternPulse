@@ -170,20 +170,20 @@ export default function ReviewQueue() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {[
-          { label: 'Pending Review', value: reports.length, icon: Clock, color: '#FFB703' },
-          { label: 'Reviewed Today', value: 0, icon: CheckCircle, color: '#06D6A0' },
-          { label: 'Avg Response', value: '< 24h', icon: TrendingUp, color: '#7C3AED' },
+          { label: 'Pending', value: reports.length, icon: Clock, color: '#FFB703' },
+          { label: 'Today', value: 0, icon: CheckCircle, color: '#06D6A0' },
+          { label: 'Avg Speed', value: '< 24h', icon: TrendingUp, color: '#7C3AED' },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="stat-card">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{label}</p>
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: `${color}18` }}>
-                <Icon size={15} style={{ color }} />
+          <div key={label} className="stat-card !p-3.5 sm:!p-5">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{label}</p>
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center" style={{ background: `${color}18` }}>
+                <Icon size={14} style={{ color }} />
               </div>
             </div>
-            <p className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>{value}</p>
+            <p className="text-xl sm:text-2xl font-black" style={{ color: 'var(--text-primary)' }}>{value}</p>
           </div>
         ))}
       </div>
@@ -192,7 +192,7 @@ export default function ReviewQueue() {
       <div className="grid lg:grid-cols-5 gap-6">
 
         {/* ─── Report List (2 cols) ─── */}
-        <div className="lg:col-span-2 space-y-2">
+        <div className={`lg:col-span-2 space-y-2 ${selected ? 'hidden lg:block' : 'block'}`}>
           <p className="text-xs font-bold uppercase tracking-widest px-1 mb-3" style={{ color: 'var(--text-muted)' }}>
             Pending Reports ({filtered.length})
           </p>
@@ -255,7 +255,7 @@ export default function ReviewQueue() {
         </div>
 
         {/* ─── Review Panel (3 cols) ─── */}
-        <div className="lg:col-span-3">
+        <div className={`lg:col-span-3 ${selected ? 'block' : 'hidden lg:block'}`}>
           <AnimatePresence mode="wait">
             {selected ? (
               <motion.div
@@ -264,6 +264,16 @@ export default function ReviewQueue() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-4">
+
+                {/* Mobile Back Button */}
+                <button
+                  type="button"
+                  onClick={() => setSelected(null)}
+                  className="lg:hidden flex items-center gap-1.5 text-xs font-bold py-2 px-3 rounded-xl transition-colors mb-2"
+                  style={{ background: 'var(--bg-surface-2)', color: 'var(--primary)' }}
+                >
+                  ← Back to Pending List ({filtered.length})
+                </button>
 
                 {/* Report header */}
                 <Card>
