@@ -81,7 +81,7 @@ export default function InternDashboard() {
       </motion.div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {loading
           ? Array(4).fill(0).map((_, i) => <StatCardSkeleton key={i} />)
           : statCards.map(({ label, value, icon: Icon, color, bg }, i) => (
@@ -90,15 +90,15 @@ export default function InternDashboard() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                className="stat-card"
+                className="stat-card !p-4 sm:!p-6"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-xs font-semibold text-muted uppercase">{label}</p>
-                  <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center`}>
-                    <Icon size={18} className={color} />
+                <div className="flex items-center justify-between mb-2 sm:mb-4">
+                  <p className="text-[11px] sm:text-xs font-semibold text-muted uppercase tracking-wider">{label}</p>
+                  <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl ${bg} flex items-center justify-center`}>
+                    <Icon size={16} className={color} />
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-primaryText">{value}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-primaryText">{value}</p>
               </motion.div>
             ))}
       </div>
